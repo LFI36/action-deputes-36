@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ouverture de votre messagerie...</title>
+    
+    <!-- Méta-données pour les réseaux sociaux -->
+    <meta property="og:title" content="Interpellez vos députés sur la légitime défense">
+    <meta property="og:description" content="Cliquez ici pour envoyer automatiquement un e-mail à vos députés (Indre).">
+    
+    <!-- Chargement de Tailwind CSS pour un rendu propre -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Animation de chargement */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col items-center justify-center min-h-screen p-4 text-center">
+
+    <div class="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full border border-gray-100">
+        
+        <div class="flex justify-center mb-6">
+            <div class="loader"></div>
+        </div>
+        
+        <h1 class="text-xl font-bold text-gray-800 mb-2">Ouverture de votre messagerie...</h1>
+        <p class="text-gray-500 text-sm mb-6">Votre e-mail pré-rempli est en cours de préparation.</p>
+        
+        <!-- Bouton de secours si le navigateur bloque la redirection automatique -->
+        <div id="fallback" class="opacity-0 transition-opacity duration-1000">
+            <p class="text-xs text-gray-400 mb-3">Si rien ne s'ouvre d'ici quelques secondes :</p>
+            <a id="mailLink" href="#" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors w-full">
+                Cliquez ici pour ouvrir l'e-mail manually
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Le lien complet encodé (généré précédemment)
+        const destinataires = "francois.jolivet@assemblee-nationale.fr,alix.fruchon@assemblee-nationale.fr";
+        const objet = "Demande d'explications concernant votre vote sur la proposition de loi relative à la présomption de légitime défense";
+        const corps = `Madame la Députée,\nMonsieur le Député,\n\nEn tant que citoyen(ne) de votre circonscription, je souhaite obtenir des éclaircissements concernant votre vote en faveur de la proposition de loi visant à instaurer une présomption de légitime défense pour les policiers et les gendarmes.\n\nLe rôle d'un parlementaire implique de rendre compte de ses positions et de ses votes auprès des citoyens qu'il représente. Or, sauf erreur de ma part, je n'ai trouvé aucune communication de votre part expliquant les raisons qui vous ont conduit à soutenir ce texte.\n\nJe souhaiterais donc connaître :\n- les motivations qui ont guidé votre vote ;\n- votre analyse des conséquences juridiques et démocratiques de cette proposition de loi ;\n- les éléments qui vous ont convaincu de soutenir ce texte ;\n- les raisons pour lesquelles ce vote n'a pas fait l'objet d'une communication publique auprès de vos électeurs.\n\nMa démarche ne vise pas à contester votre liberté de vote, mais à exercer un droit légitime à l'information. La transparence sur les décisions prises par les représentants de la Nation est un élément essentiel du débat démocratique et de la confiance entre les élus et les citoyens.\n\nJe vous remercie par avance du temps que vous consacrerez à cette demande et espère pouvoir prendre connaissance de votre réponse.\n\nJe vous prie d'agréer, Madame la Députée, Monsieur le Député, l'expression de mes salutations distinguées.`;
+        
+        const mailtoUrl = `mailto:${destinataires}?subject=${encodeURIComponent(objet)}&body=${encodeURIComponent(corps)}`;
+
+        // Au chargement de la page
+        window.onload = function() {
+            // 1. On attribue le lien au bouton de secours
+            document.getElementById('mailLink').href = mailtoUrl;
+            
+            // 2. On lance la redirection automatique instantanément
+            window.location.href = mailtoUrl;
+
+            // 3. On affiche le bouton de secours après 2 secondes (au cas où le navigateur bloque l'ouverture automatique)
+            setTimeout(function() {
+                document.getElementById('fallback').classList.remove('opacity-0');
+            }, 2000);
+        };
+    </script>
+</body>
+</html>
